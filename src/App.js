@@ -2,14 +2,15 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 
 import Header from './components/Header';
+import HomeScreen from './screen/HomeScreen';
 
 function App() {
   return (
     <>
       <Header />
-      <main>
+      <main className="py-4">
         <Container>
-          <h1>Welcome to my shop</h1>
+          <HomeScreen />
         </Container>
       </main>
     </>
