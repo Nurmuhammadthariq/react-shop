@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Components
 import Header from './components/Header';
+import Footer from './components/Footer';
 // Screen
 import HomeScreen from './screen/HomeScreen';
 import ProductScreen from './screen/ProductScreen';
@@ -20,6 +21,7 @@ function App() {
           </Routes>
         </Container>
       </main>
+      <Footer />
     </Router>
   );
 }

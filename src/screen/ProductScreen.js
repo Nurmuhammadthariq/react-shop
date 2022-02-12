@@ -1,7 +1,8 @@
-import React from 'react';
-import Products from '../products';
-import { useParams, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { listProductsDetails } from '../actions/productActions';
 import {
   Row,
   Col,
@@ -14,16 +15,22 @@ import {
 
 const ProductScreen = () => {
   const { id } = useParams();
-  const product = Products.find((p) => p._id === id);
-  console.log(product);
 
+  const dispatch = useDispatch();
+
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
+
+  useEffect(() => {
+    dispatch(listProductsDetails(id));
+  }, [dispatch, id]);
   return (
-    <div>
+    <div style={{ height: '100rem' }}>
       <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>
       <Row>
-        <Col md={4}>
+        <Col md={6}>
           <Image src={product.image} alt={product.name} fluid />
         </Col>
         <Col md={4} className="ml-auto">
@@ -41,26 +48,24 @@ const ProductScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col>Status :</Col>
-                  <Col>
-                    {product.countInStock > 0 ? 'In Stock' : 'Out of Stock'}
-                  </Col>
+                  <Col>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Stock :</Col>
-                  <Col>{product.countInStock}</Col>
+                  <Col>{product.stock}</Col>
                 </Row>
               </ListGroup.Item>
 
-              {product.countInStock > 0 && (
+              {product.stock > 0 && (
                 <ListGroup.Item>
                   <Row>
                     <Col>Qty :</Col>
                     <Col>
                       <Form.Control as="select">
-                        {[...Array(product.countInStock).keys()].map((x) => (
+                        {[...Array(product.stock).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>
                             {x + 1}
                           </option>
@@ -75,13 +80,24 @@ const ProductScreen = () => {
                 <Button
                   className="btn-block"
                   type="button"
-                  disabled={product.countInStock === 0}
+                  disabled={product.stock === 0}
                 >
                   Add to cart
                 </Button>
               </ListGroup.Item>
             </ListGroup>
           </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={7}>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <h4>{product.name}</h4>
+            </ListGroup.Item>
+            <ListGroup.Item>Price: $ {product.price}</ListGroup.Item>
+            <ListGroup.Item>{product.description}</ListGroup.Item>
+          </ListGroup>
         </Col>
       </Row>
     </div>
