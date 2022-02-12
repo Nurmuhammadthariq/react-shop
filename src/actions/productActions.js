@@ -36,3 +36,9 @@ export const listProductsDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const removeSelectedProduct = () => {
+  return {
+    type: ActionTypes.PRODUCT_DETAILS_REMOVE,
+  };
+};
