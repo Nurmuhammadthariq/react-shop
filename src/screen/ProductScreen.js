@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { Link } from 'react-router-dom';
 import {
@@ -22,6 +22,8 @@ const ProductScreen = () => {
   const { loading, error, product } = productDetails;
 
   const { id } = useParams();
+  let history = useNavigate();
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (id && id !== '') dispatch(listProductsDetails(id));
@@ -29,6 +31,12 @@ const ProductScreen = () => {
       dispatch(removeSelectedProduct());
     };
   }, [dispatch, id]);
+
+  //add cart
+  const addToCartHandler = () => {
+    history(`/cart/${id}`);
+  };
+
   return (
     <div style={{ height: '100rem' }}>
       <Link className="btn btn-light my-3" to="/">
@@ -89,6 +97,7 @@ const ProductScreen = () => {
 
                   <ListGroup.Item>
                     <Button
+                      onClick={addToCartHandler}
                       className="btn-block"
                       type="button"
                       disabled={product.stock === 0}
