@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 // Screen
 import HomeScreen from './screen/HomeScreen';
 import ProductScreen from './screen/ProductScreen';
+import CartScreen from './screen/CartScreen';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
+            <Route path="/cart/:id" element={<CartScreen />} />
+            <Route path="/cart/" element={<CartScreen />} />
           </Routes>
         </Container>
       </main>
