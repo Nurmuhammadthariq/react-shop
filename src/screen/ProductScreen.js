@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
@@ -18,6 +18,8 @@ import {
 } from 'react-bootstrap';
 
 const ProductScreen = () => {
+  const [qty, setQty] = useState(1);
+
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
@@ -34,7 +36,7 @@ const ProductScreen = () => {
 
   //add cart
   const addToCartHandler = () => {
-    history(`/cart/${id}`);
+    history(`/cart/${id}?qty=${qty}`);
   };
 
   return (
@@ -83,7 +85,11 @@ const ProductScreen = () => {
                       <Row>
                         <Col>Qty :</Col>
                         <Col>
-                          <Form.Control as="select">
+                          <Form.Control
+                            as="select"
+                            value={qty}
+                            onChange={(e) => setQty(e.target.value)}
+                          >
                             {[...Array(product.stock).keys()].map((x) => (
                               <option key={x + 1} value={x + 1}>
                                 {x + 1}
